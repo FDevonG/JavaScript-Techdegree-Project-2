@@ -44,7 +44,7 @@ function appendPagination (list) {
 		document.querySelector('.pagination').remove();
 	}
 	
-	let pageLinkCount = Math.floor(list.length / itemsPerPage);
+	let pageLinkCount = Math.ceil(list.length / itemsPerPage);
 	if (pageLinkCount === 0) {
 		pageLinkCount = 1;
 	}
