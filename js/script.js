@@ -102,8 +102,9 @@ function appendPagination (list) {
 /*******************
 SEARCH BAR
 *******************/
+
+//dynmically builds the seach bar so if someone has javascript disabled they will not see it
 let searchInput; 
-let searchMatched = true; //Used to control if a user shows up in the search results
 buildSearchBar();
 function buildSearchBar () {
 	'use strict';
@@ -118,6 +119,7 @@ function buildSearchBar () {
 	document.querySelector('button').addEventListener('click', search);
 }
 
+//the function that gets called when you type into the search bar
 function search () {
 	
 	'use strict';
@@ -126,21 +128,30 @@ function search () {
 	
 	if (searchValue !== '' && searchValue !== null) {
 		
-		const names = document.querySelectorAll('H3');
-
-		for(let i = 0; i < searchValue.length; i++) {
-			for(let x = 0; x < names.length; x++) {
-				if (searchValue[i] === names[x].textContent[i]) {
-					searchMatched = true;
-				} else {
-					searchMatched = false;
+		const names = document.querySelectorAll('H3');//gathers the names on the page to filter through
+		
+		//filter through the names array comparing them to the search value
+		for (let i = 0; i < names.length; i++) {
+			
+			const nameToCompare = names[i].textContent;
+			let nameFound = true;
+			
+			for (let x = 0; x < searchValue.length; x++) {
+				if (searchValue[x] !== nameToCompare[x]) {
+					nameFound = false;
 				}
-				if (searchMatched) {
-					nameArray.push(listOfItems[x]);
+			}
+			//if the name is found we must cycle though our ist of items holding all the people to find the correct one and add it to the search results
+			if (nameFound) {
+				for (let t = 0; t < listOfItems.length; t++) {
+					const listName = listOfItems[t].firstElementChild.children[1].textContent;
+					if (listName === nameToCompare) {
+						nameArray.push(listOfItems[t]);
+					}
 				}
 			}
 		}
-		
+				
 		if (nameArray === undefined || nameArray.length === 0) {
 			noResults();
 		} else {
@@ -153,6 +164,7 @@ function search () {
 	}
 }
 
+//if our search returns no one this gets called
 function noResults () {
 	'use strict';
 	for (let i = 0; i < listOfItems.length; i++) {
