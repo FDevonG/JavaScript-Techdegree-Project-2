@@ -137,7 +137,7 @@ function search () {
 			let nameFound = true;
 			
 			for (let x = 0; x < searchValue.length; x++) {
-				if (searchValue[x] !== nameToCompare[x]) {
+				if (searchValue[x].toUpperCase() !== nameToCompare[x].toUpperCase()) {
 					nameFound = false;
 				}
 			}
